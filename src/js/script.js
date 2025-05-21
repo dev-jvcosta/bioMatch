@@ -111,3 +111,15 @@ const cardPairs = [
     },
   },
 ];
+
+ // Criando Variaveis de estado do jogo
+    let gameBoard = [];
+    let flippedCards = [];
+    let matchedPairs = 0;
+    let currentPlayer = 1;
+    let player1Score = 0;
+    let player2Score = 0;
+    let gameStarted = false;
+    let startTime;
+    let timerInterval;
+    let firstCard = null;
