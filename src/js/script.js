@@ -123,3 +123,22 @@ const cardPairs = [
     let startTime;
     let timerInterval;
     let firstCard = null;
+
+    // Elementos do DOM
+    const gameBoardElement = document.getElementById('game-board');
+    const player1ScoreElement = document.getElementById('player1-score');
+    const player2ScoreElement = document.getElementById('player2-score');
+    const player1ActiveIndicator = document.getElementById('player1-active');
+    const player2ActiveIndicator = document.getElementById('player2-active');
+    const timerElement = document.getElementById('timer');
+    const startButton = document.getElementById('start-btn');
+    const resetButton = document.getElementById('reset-btn');
+    const winnerModal = document.getElementById('winner-modal');
+    const winnerTitle = document.getElementById('winner-title');
+    const winnerMessage = document.getElementById('winner-message');
+    const playAgainButton = document.getElementById('play-again-btn');
+    const factModal = document.getElementById('fact-modal');
+    const factTitle = document.getElementById('fact-title');
+    const factImage = document.getElementById('fact-image');
+    const factContent = document.getElementById('fact-content');
+    const closeFactButton = document.getElementById('close-fact-btn');
