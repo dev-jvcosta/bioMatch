@@ -154,11 +154,10 @@ const cardPairs = [
     const timer3MinButton = document.getElementById('timer-3min');
     const timer5MinButton = document.getElementById('timer-5min');
     const cancelTimerSelectButton = document.getElementById('cancel-timer-select-btn');
-
-    // Inicializa o Jogo
-    function initGame() {
-        
-        // Cria um "Flat array" de todas as cartas (imagem e descrição para cada par)
+    
+    // Initialize the game
+    // Configura o tabuleiro do jogo (cria e embaralha as cartas)
+    function setupGameBoard() {
         const allCards = [];
         cardPairs.forEach((pair, index) => {
             allCards.push({
@@ -171,40 +170,33 @@ const cardPairs = [
             allCards.push({
                 type: 'description',
                 pairId: index,
-                title: '',
-                content: pair.description.title,
+                title: '', // O título da frente da carta de descrição é 'Descrição'
+                content: pair.description.title, // Corrigido para usar pair.description.title
                 fact: pair.description.fact
             });
         });
 
-        // Embaralha as cartas
         gameBoard = shuffleArray(allCards);
-        
-        // Limpa o quadro do jogo
-        gameBoardElement.innerHTML = '';
-        
-        // Cria as cartas
+        gameBoardElement.innerHTML = ''; // Limpa o tabuleiro antes de adicionar novas cartas
+
         gameBoard.forEach((card, index) => {
             const cardElement = document.createElement('div');
-            cardElement.className = 'card';
+            cardElement.className = 'card'; // Classes de altura responsiva podem ser adicionadas aqui ou no CSS
             cardElement.dataset.index = index;
             
             const cardInner = document.createElement('div');
             cardInner.className = 'card-inner';
             
             const cardFront = document.createElement('div');
-            cardFront.className = 'card-front flex flex-col items-center justify-center';
+            cardFront.className = 'card-front flex flex-col items-center justify-center p-2'; // Adicionado p-2
             
-            //icone
             const cardIcon = document.createElement('i');
             if (card.type === 'image') {
-                // Ex.: text-3xl para mobile, text-4xl para sm+
                 cardIcon.className = 'fas fa-microscope text-3xl sm:text-4xl mb-1 sm:mb-2';
             } else {
                 cardIcon.className = 'fas fa-align-left text-3xl sm:text-4xl mb-1 sm:mb-2';
             }
             
-            // Título da frente
             const cardTitle = document.createElement('div');
             cardTitle.className = 'font-bold text-xs sm:text-sm text-center';
             cardTitle.textContent = card.type === 'image' ? card.title : 'Descrição';
@@ -213,26 +205,22 @@ const cardPairs = [
             cardFront.appendChild(cardTitle);
             
             const cardBack = document.createElement('div');
-            cardBack.className = 'card-back';
+            cardBack.className = 'card-back p-2'; // Adicionado p-2
             
-            // Para a descrição no verso da carta:
             if (card.type === 'image') {
                 const img = document.createElement('img');
                 img.src = card.content;
                 img.alt = card.title;
-                img.className = 'card-image mb-2';
+                img.className = 'card-image mb-1 sm:mb-2'; // Ajustado margin
                 cardBack.appendChild(img);
                 
-
                 const imgTitle = document.createElement('div');
-                // Ex.: text-xs para mobile, text-sm para sm+
                 imgTitle.className = 'font-bold text-xs sm:text-sm text-center';
                 imgTitle.textContent = card.title;
                 cardBack.appendChild(imgTitle);
             } else {
                 const descText = document.createElement('div');
-                //Ex.: text-xs para mobile, text-sm para sm+
-                descText.className = 'text-xs sm:text-sm text-gray-700 overflow-auto p-1';
+                descText.className = 'text-xs sm:text-sm text-gray-700 overflow-auto h-full'; // h-full para ocupar espaço
                 descText.textContent = card.content;
                 cardBack.appendChild(descText);
             }
@@ -245,124 +233,7 @@ const cardPairs = [
             
             gameBoardElement.appendChild(cardElement);
         });
-        
-        // Reinicia o jogo
-        flippedCards = [];
-        matchedPairs = 0;
-        currentPlayer = 1;
-        player1Score = 0;
-        player2Score = 0;
-        player1ScoreElement.textContent = '0';
-        player2ScoreElement.textContent = '0';
-        updatePlayerIndicators();
-        gameStarted = false;
-        clearInterval(timerInterval);
-        timerElement.textContent = '00:00';
-        startButton.textContent = 'Start Game';
-        startButton.disabled = false;
-        gameBoardElement.style.pointerEvents = 'none';
-    }
-
-    
-    // Initialize the game
-    function initGame() {
-        
-        // Cria um array plano de todas as cartas (imagem e descrição para cada par)
-        const allCards = [];
-        cardPairs.forEach((pair, index) => {
-            allCards.push({
-                type: 'image',
-                pairId: index,
-                title: pair.image.title,
-                content: pair.image.src,
-                fact: pair.description.fact
-            });
-            allCards.push({
-                type: 'description',
-                pairId: index,
-                title: '',
-                content: pair.description.title,
-                fact: pair.description.fact
-            });
-        });
-
-        // Embaralha as cartas
-        gameBoard = shuffleArray(allCards);
-   
-        // Limpa o quadro do jogo
-        gameBoardElement.innerHTML = '';
-
-        // Cria as cartas
-        gameBoard.forEach((card, index) => {
-            const cardElement = document.createElement('div');
-            cardElement.className = 'card';
-            cardElement.dataset.index = index;
-            
-            const cardInner = document.createElement('div');
-            cardInner.className = 'card-inner';
-            
-            const cardFront = document.createElement('div');
-            cardFront.className = 'card-front flex flex-col items-center justify-center';
-            
-            const cardIcon = document.createElement('i');
-            if (card.type === 'image') {
-                cardIcon.className = 'fas fa-microscope text-4xl mb-2';
-            } else {
-                cardIcon.className = 'fas fa-align-left text-4xl mb-2';
-            }
-            
-            const cardTitle = document.createElement('div');
-            cardTitle.className = 'font-bold text-sm';
-            cardTitle.textContent = card.type === 'image' ? card.title : 'Descrição';
-            
-            cardFront.appendChild(cardIcon);
-            cardFront.appendChild(cardTitle);
-            
-            const cardBack = document.createElement('div');
-            cardBack.className = 'card-back';
-            
-            if (card.type === 'image') {
-                const img = document.createElement('img');
-                img.src = card.content;
-                img.alt = card.title;
-                img.className = 'card-image mb-2';
-                cardBack.appendChild(img);
-                
-                const imgTitle = document.createElement('div');
-                imgTitle.className = 'font-bold text-sm text-center';
-                imgTitle.textContent = card.title;
-                cardBack.appendChild(imgTitle);
-            } else {
-                const descText = document.createElement('div');
-                descText.className = 'text-sm text-gray-700 overflow-auto';
-                descText.textContent = card.content;
-                cardBack.appendChild(descText);
-            }
-            
-            cardInner.appendChild(cardFront);
-            cardInner.appendChild(cardBack);
-            cardElement.appendChild(cardInner);
-            
-            cardElement.addEventListener('click', () => handleCardClick(cardElement, index));
-            
-            gameBoardElement.appendChild(cardElement);
-        });
-
-        // Reinicia o jogo
-        flippedCards = [];
-        matchedPairs = 0;
-        currentPlayer = 1;
-        player1Score = 0;
-        player2Score = 0;
-        player1ScoreElement.textContent = '0';
-        player2ScoreElement.textContent = '0';
-        updatePlayerIndicators();
-        gameStarted = false;
-        clearInterval(timerInterval);
-        timerElement.textContent = '00:00';
-        startButton.textContent = 'Start Game';
-        startButton.disabled = false;
-        gameBoardElement.style.pointerEvents = 'none';
+        gameBoardElement.style.pointerEvents = 'none'; // Começa desabilitado
     }
 
     // Embaralha um array usando o algoritmo Fisher-Yates
@@ -398,7 +269,6 @@ const cardPairs = [
         const secondCard = { element: cardElement, index, card };
         checkForMatch(firstCard, secondCard);
     }
-
 
     // Checa se as cartas combinam
     function checkForMatch(card1, card2) {
@@ -501,73 +371,154 @@ const cardPairs = [
         }
     }
 
-    // Inicia o Jogo
-    function startGame() {
+    // Nova inicialização do jogo com seleção de temporizador e inicia o jogo
+    function actuallyStartGame() {
         gameStarted = true;
-        startButton.disabled = true;
-        startButton.textContent = 'Game in Progress';
-        startTime = new Date();
+        // startButton.disabled = true; // Já foi desabilitado
+        startButton.textContent = 'Jogo em Progresso';
+
+        updatePlayerIndicators(); // Garante que o jogador 1 comece
+
+        // Inicia o timer de contagem regressiva
+        timerInterval = setInterval(countdownTick, 1000);
         
-        // Inicia o timer
-        timerInterval = setInterval(updateTimer, 1000);
-        
-        // Habilita o cliques
+        // Habilita cliques no tabuleiro
         gameBoardElement.style.pointerEvents = 'auto';
     }
 
-    // Atualiza otemporizador
-    function updateTimer() {
-        const currentTime = new Date();
-        const elapsedTime = Math.floor((currentTime - startTime) / 1000);
-        const minutes = Math.floor(elapsedTime / 60).toString().padStart(2, '0');
-        const seconds = (elapsedTime % 60).toString().padStart(2, '0');
-        timerElement.textContent = `${minutes}:${seconds}`;
+    // Atualiza o temporizador exibido por uma contagem regressiva
+    function countdownTick() {
+        timeRemaining--;
+        updateTimerDisplay(timeRemaining);
+
+        if (timeRemaining <= 0) {
+            clearInterval(timerInterval);
+            gameStarted = false;
+            gameBoardElement.style.pointerEvents = 'none';
+            endGame(true); // Passa true para indicar que o tempo esgotou
+        }
     }
 
     // Termina o jogo
-    function endGame() {
+    function endGame(timeRanOut = false) {
         clearInterval(timerInterval);
-        
-        // Determine winner
+        gameStarted = false; // Jogo terminou
+        gameBoardElement.style.pointerEvents = 'none'; // Desabilita o tabuleiro
+        // Não precisa reabilitar startButton aqui, pois o playAgainButton no modal fará o reset
+        // ou o usuário pode clicar em "Reset" manualmente.
+        // startButton.disabled = false; // Será habilitado por resetGame
+        // startButton.textContent = 'Start Game';
+
         let winnerText = '';
-        if (player1Score > player2Score) {
-            winnerText = 'Player 1 wins!';
-        } else if (player2Score > player1Score) {
-            winnerText = 'Player 2 wins!';
-        } else {
-            winnerText = "It's a tie!";
+        let messageDetail = '';
+        const finalTimeFormatted = timerElement.textContent; // Tempo que aparece no display
+
+        if (timeRanOut) {
+            winnerTitle.textContent = 'Tempo Esgotado!';
+            if (player1Score > player2Score) {
+                winnerText = 'Jogador 1 venceu por pontos!';
+            } else if (player2Score > player1Score) {
+                winnerText = 'Jogador 2 venceu por pontos!';
+            } else { // Empate nos pontos
+                if (player1Score === 0 && player2Score === 0) { // Ninguém pontuou
+                    winnerText = "Empate! Nenhum jogador pontuou.";
+                } else { // Empate com pontos
+                    winnerText = "Empate por pontos!";
+                }
+            }
+            messageDetail = `Pontuação: Jogador 1 - ${player1Score}, Jogador 2 - ${player2Score}.`;
+        } else { // Jogo terminado por completar os pares
+            winnerTitle.textContent = 'Jogo Concluído!';
+            if (player1Score > player2Score) {
+                winnerText = 'Jogador 1 venceu!';
+            } else if (player2Score > player1Score) {
+                winnerText = 'Jogador 2 venceu!';
+            } else { // Empate, mesmo completando todos os pares (ambos fizeram a mesma quantidade de pontos)
+                winnerText = "Empate!";
+            }
+            // Calcula o tempo que levou
+            let timeTakenSeconds = selectedGameDuration - timeRemaining;
+            if (timeTakenSeconds < 0) timeTakenSeconds = selectedGameDuration; // Caso o timeRemaining não tenha sido atualizado a tempo
+
+            const minutesTaken = Math.floor(timeTakenSeconds / 60).toString().padStart(2, '0');
+            const secondsTaken = (timeTakenSeconds % 60).toString().padStart(2, '0');
+            messageDetail = `Pontuação: Jogador 1 - ${player1Score}, Jogador 2 - ${player2Score}. Tempo: ${minutesTaken}:${secondsTaken}.`;
         }
-        
-        winnerTitle.textContent = 'Game Over!';
-        winnerMessage.textContent = `${winnerText} Final scores: Player 1 - ${player1Score}, Player 2 - ${player2Score}. Time taken: ${timerElement.textContent}`;
+
+        winnerMessage.textContent = `${winnerText} ${messageDetail}`;
         winnerModal.classList.remove('hidden');
     }
 
     // Reinicia o Jogo
     function resetGame() {
-        // Limpa todos os temporizadores ativos
-        clearInterval(timerInterval);
-        
-        // Fecha qualquer modal aberto
-        winnerModal.classList.add('hidden');
-        factModal.classList.add('hidden');
-        
-        // Reinitialize the game
-        initGame();
+    clearInterval(timerInterval);
+
+    winnerModal.classList.add('hidden');
+    factModal.classList.add('hidden');
+    timerSelectModal.classList.add('hidden'); // Esconder modal de tempo também
+
+    // Reset game state variables
+    gameStarted = false;
+    matchedPairs = 0;
+    currentPlayer = 1;
+    player1Score = 0;
+    player2Score = 0;
+    selectedGameDuration = 0;
+    timeRemaining = 0;
+    flippedCards = [];
+    firstCard = null;
+
+    player1ScoreElement.textContent = '0';
+    player2ScoreElement.textContent = '0';
+    updatePlayerIndicators();
+
+    timerElement.textContent = '00:00';
+    startButton.textContent = 'Start Game';
+    startButton.disabled = false;
+
+    setupGameBoard(); // Configura o tabuleiro com novas cartas
+    // gameBoardElement.style.pointerEvents = 'none'; // Já é feito em setupGameBoard
     }
+
+    function handleTimerSelection(durationInSeconds) {
+      selectedGameDuration = durationInSeconds;
+      timeRemaining = durationInSeconds;
+      updateTimerDisplay(timeRemaining); // Atualiza o display do timer para o tempo escolhido
+      timerSelectModal.classList.add('hidden');
+      actuallyStartGame(); // Função que realmente inicia o jogo
+    }
+
+    // Update timer display (para contagem regressiva ou apenas mostrar tempo)
+    function updateTimerDisplay(seconds) {
+        const minutes = Math.floor(seconds / 60).toString().padStart(2, '0');
+        const secs = (seconds % 60).toString().padStart(2, '0');
+        timerElement.textContent = `${minutes}:${secs}`;
+    }
+
+    timer1MinButton.addEventListener('click', () => handleTimerSelection(parseInt(timer1MinButton.dataset.time)));
+    timer3MinButton.addEventListener('click', () => handleTimerSelection(parseInt(timer3MinButton.dataset.time)));
+    timer5MinButton.addEventListener('click', () => handleTimerSelection(parseInt(timer5MinButton.dataset.time)));
+
+    cancelTimerSelectButton.addEventListener('click', () => {
+        timerSelectModal.classList.add('hidden');
+        startButton.disabled = false; // Reabilita o botão "Start Game" se o usuário cancelar
+    });
 
     // Agentes dos Eventos
     startButton.addEventListener('click', () => {
-        if (!gameStarted) {
-            startGame();
-        }
+    if (gameStarted) return; // Se o jogo já começou, não faz nada
+
+    // O resetGame() já terá sido chamado no playAgain ou no carregamento inicial.
+    // AQUI o tabuleiro já está pronto e embaralhado.
+    timerSelectModal.classList.remove('hidden');
+    startButton.disabled = true; // Desabilita o botão "Start Game" enquanto o modal está aberto
     });
 
     resetButton.addEventListener('click', resetGame);
 
     playAgainButton.addEventListener('click', () => {
-        winnerModal.classList.add('hidden');
-        initGame();
+    winnerModal.classList.add('hidden');
+    resetGame(); // Chama resetGame que prepara tudo para um novo "Start Game"
     });
 
     closeFactButton.addEventListener('click', () => {
@@ -576,5 +527,10 @@ const cardPairs = [
         gameBoardElement.style.pointerEvents = 'auto';
     });
 
+    // Inicializa o jogo na página de carregamento
+    document.addEventListener('DOMContentLoaded', () => {
+    resetGame(setupGameBoard()); // Chama resetGame para configurar o estado inicial corretamente
+    });
+
     // Inicializa o carregamento da página
-    initGame();
+    
