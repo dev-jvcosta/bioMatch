@@ -183,16 +183,19 @@ const cardPairs = [
             const cardFront = document.createElement('div');
             cardFront.className = 'card-front flex flex-col items-center justify-center';
             
+            //icone
             const cardIcon = document.createElement('i');
             if (card.type === 'image') {
-                cardIcon.className = 'fas fa-microscope text-4xl mb-2';
+                // Ex.: text-3xl para mobile, text-4xl para sm+
+                cardIcon.className = 'fas fa-microscope text-3xl sm:text-4xl mb-1 sm:mb-2';
             } else {
-                cardIcon.className = 'fas fa-align-left text-4xl mb-2';
+                cardIcon.className = 'fas fa-align-left text-3xl sm:text-4xl mb-1 sm:mb-2';
             }
             
+            // Título da frente
             const cardTitle = document.createElement('div');
-            cardTitle.className = 'font-bold text-sm';
-            cardTitle.textContent = card.type === 'image' ? card.title : 'Description';
+            cardTitle.className = 'font-bold text-xs sm:text-sm text-center';
+            cardTitle.textContent = card.type === 'image' ? card.title : 'Descrição';
             
             cardFront.appendChild(cardIcon);
             cardFront.appendChild(cardTitle);
@@ -200,6 +203,7 @@ const cardPairs = [
             const cardBack = document.createElement('div');
             cardBack.className = 'card-back';
             
+            // Para a descrição no verso da carta:
             if (card.type === 'image') {
                 const img = document.createElement('img');
                 img.src = card.content;
@@ -207,13 +211,16 @@ const cardPairs = [
                 img.className = 'card-image mb-2';
                 cardBack.appendChild(img);
                 
+
                 const imgTitle = document.createElement('div');
-                imgTitle.className = 'font-bold text-sm text-center';
+                // Ex.: text-xs para mobile, text-sm para sm+
+                imgTitle.className = 'font-bold text-xs sm:text-sm text-center';
                 imgTitle.textContent = card.title;
                 cardBack.appendChild(imgTitle);
             } else {
                 const descText = document.createElement('div');
-                descText.className = 'text-sm text-gray-700 overflow-auto';
+                //Ex.: text-xs para mobile, text-sm para sm+
+                descText.className = 'text-xs sm:text-sm text-gray-700 overflow-auto p-1';
                 descText.textContent = card.content;
                 cardBack.appendChild(descText);
             }
