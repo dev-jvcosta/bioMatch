@@ -24,7 +24,7 @@
         </div>
     </div>
 
-    <div class="text-center w-full sm:w-auto order-first sm:order-none py-2 sm:py-0"> {/* Adicionado order-first para mobile, se desejar o timer no topo quando empilhado */}
+    <div class="text-center w-full sm:w-auto order-first sm:order-none py-2 sm:py-0"> 
         <div class="text-xl sm:text-2xl font-bold text-green-800 mb-1" id="timer">00:00</div>
         <div class="flex gap-2 justify-center">
             <button id="start-btn" class="bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-sm sm:text-base">Start Game</button>
@@ -70,6 +70,7 @@
             </div>
         </div>
     </div>
+    <audio id="match-sound-effect" src="./assets/sounds/match-sound.mp3" preload="auto"></audio>
   <script src="src/js/script.js"></script>
 </body>
 </html>
