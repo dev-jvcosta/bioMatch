@@ -1,0 +1,12 @@
+@media (min-width: 640px){ /* Ponto de quebra 'sm' do Tailwind */
+  .card{
+    height: 160px;
+  }
+}
+
+@media (min-width: 768px){ /* Ponto de quebra 'md' do Tailwind */
+  .card{
+    height: 180px; /* Altura original para telas maiores */
+  }
+}
+

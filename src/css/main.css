@@ -1,6 +1,6 @@
 .card {
     perspective: 1000px;
-    height: 180px;
+    height: 140px;
 }
 .card-inner {
     position: relative;
