@@ -124,6 +124,10 @@ const cardPairs = [
     let timerInterval;
     let firstCard = null;
 
+    // Váriaveis de estado do jogo para modal de seleção de temporizador
+    let selectedGameDuration = 0; // Duração total do jogo em segundos
+    let timeRemaining = 0;        // Tempo restante em segundos para a contagem regressiva
+
     // Elementos do DOM
     const gameBoardElement = document.getElementById('game-board');
     const player1ScoreElement = document.getElementById('player1-score');
@@ -143,6 +147,13 @@ const cardPairs = [
     const factContent = document.getElementById('fact-content');
     const closeFactButton = document.getElementById('close-fact-btn');
     const matchSoundEffect = document.getElementById('match-sound-effect');
+
+    // Novos elementos DOM para modal de seleção de temporizador
+    const timerSelectModal = document.getElementById('timer-select-modal');
+    const timer1MinButton = document.getElementById('timer-1min');
+    const timer3MinButton = document.getElementById('timer-3min');
+    const timer5MinButton = document.getElementById('timer-5min');
+    const cancelTimerSelectButton = document.getElementById('cancel-timer-select-btn');
 
     // Inicializa o Jogo
     function initGame() {
