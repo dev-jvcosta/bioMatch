@@ -10,3 +10,39 @@
   }
 }
 
+.card {
+    perspective: 1000px;
+    /* Altura base para telas menores (sm), onde 8 fileiras de cartas podem ocorrer.
+       Pode ser necessário aceitar scroll aqui ou tornar as cartas muito pequenas.
+       Este valor visa um equilíbrio, mas pode precisar de ajuste. */
+    height: 80px; /* Ajuste conforme necessário para o breakpoint sm */
+}
+
+@media (min-width: 640px) { /* sm - Tailwind: 3 colunas = 8 fileiras */
+    .card {
+        height: 80px; /* Exemplo: 8 fileiras x (80px + ~8px de gap) ~= 704px. Precisa testar. */
+    }
+}
+
+@media (min-width: 768px) { /* md - Tailwind: 4 colunas = 6 fileiras */
+    .card {
+        height: 90px; /* Exemplo: 6 fileiras x (90px + ~12px de gap) ~= 612px */
+    }
+}
+
+@media (min-width: 1024px) { /* lg - Tailwind: 6 colunas = 4 fileiras */
+    .card {
+        height: 135px; /* Exemplo: 4 fileiras x (110px + ~12px de gap) ~= 488px */
+    }
+}
+
+/* Mantenha o restante das suas classes .card-inner, .card-front, .card-back, etc. */
+/* Certifique-se que .card-image e o texto dentro de .card-back se ajustem bem */
+
+.card-image {
+    max-width: 100%;
+    max-height: 80%; /* Ajuste para dar espaço ao título da imagem abaixo, se houver */
+    aspect-ratio: 16/9; /* Ou remova se preferir que a imagem preencha mais */
+    object-fit: contain;
+    overflow: hidden;
+}
