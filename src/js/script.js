@@ -142,6 +142,7 @@ const cardPairs = [
     const factImage = document.getElementById('fact-image');
     const factContent = document.getElementById('fact-content');
     const closeFactButton = document.getElementById('close-fact-btn');
+    const matchSoundEffect = document.getElementById('match-sound-effect');
 
     // Inicializa o Jogo
     function initGame() {
@@ -396,6 +397,15 @@ const cardPairs = [
 
         // verifica se as cartas pertencem ao mesmo par
         if (card1.card.pairId === card2.card.pairId && card1.card.type !== card2.card.type) {
+            // TOCAR O SOM DE MATCH
+            if(matchSoundEffect){
+              matchSoundEffect.currentTime = 0; // Reinicia o som para o início, caso seja tocado rapidamente em sequência
+              matchSoundEffect.play().catch(error =>{
+                //Autoplay foi bloqueado ou outro erro qualquer
+                // É possível logar o erro ou lidar com ele, mas geralmente para sons em resposta a cliques não há problemas.
+                console.log("Erro ao tocar o som de match:", error);
+              });
+            }
 
             // Encontra o par de cartas para marcar como combinadas
             matchedPairs++;
@@ -453,7 +463,7 @@ const cardPairs = [
         }
     }
 
-    // Show fact modal
+    // Mostra o modal de curiosidade
     function showFactModal(card) {
         factTitle.textContent = card.type === 'image' ? card.title : 'Did You Know?';
         
@@ -469,7 +479,7 @@ const cardPairs = [
         factModal.classList.remove('hidden');
     }
 
-    // Update player turn indicators
+    // Atualiza o turno dos indicadores de jogador
     function updatePlayerIndicators() {
         if (currentPlayer === 1) {
             player1ActiveIndicator.classList.remove('hidden');
@@ -480,7 +490,7 @@ const cardPairs = [
         }
     }
 
-    // Start the game
+    // Inicia o Jogo
     function startGame() {
         gameStarted = true;
         startButton.disabled = true;
@@ -494,7 +504,7 @@ const cardPairs = [
         gameBoardElement.style.pointerEvents = 'auto';
     }
 
-    // Update timer display
+    // Atualiza otemporizador
     function updateTimer() {
         const currentTime = new Date();
         const elapsedTime = Math.floor((currentTime - startTime) / 1000);
@@ -503,7 +513,7 @@ const cardPairs = [
         timerElement.textContent = `${minutes}:${seconds}`;
     }
 
-    // End the game
+    // Termina o jogo
     function endGame() {
         clearInterval(timerInterval);
         
@@ -522,7 +532,7 @@ const cardPairs = [
         winnerModal.classList.remove('hidden');
     }
 
-    // Reset the game
+    // Reinicia o Jogo
     function resetGame() {
         // Limpa todos os temporizadores ativos
         clearInterval(timerInterval);
@@ -535,7 +545,7 @@ const cardPairs = [
         initGame();
     }
 
-    // Event listeners
+    // Agentes dos Eventos
     startButton.addEventListener('click', () => {
         if (!gameStarted) {
             startGame();
