@@ -188,39 +188,44 @@ const cardPairs = [
             cardInner.className = 'card-inner';
             
             const cardFront = document.createElement('div');
-            cardFront.className = 'card-front flex flex-col items-center justify-center p-2'; // Adicionado p-2
+            cardFront.className = 'card-front flex flex-col items-center justify-center p-1 text-center'; // Adicionado p-1
             
             const cardIcon = document.createElement('i');
             if (card.type === 'image') {
-                cardIcon.className = 'fas fa-microscope text-3xl sm:text-4xl mb-1 sm:mb-2';
+                cardIcon.className = 'fas fa-microscope text-2xl md:text-3xl mb-0.5 md:mb-1';
             } else {
-                cardIcon.className = 'fas fa-align-left text-3xl sm:text-4xl mb-1 sm:mb-2';
+                cardIcon.className = 'fas fa-align-left text-2xl md:text-3xl mb-0.5 md:mb-1';
             }
             
             const cardTitle = document.createElement('div');
-            cardTitle.className = 'font-bold text-xs sm:text-sm text-center';
+            // Reduzido tamanho da fonte, adicionado leading-tight para espaçamento entre linhas mais justo
+            cardTitle.className = 'font-bold text-[10px] sm:text-xs leading-tight';
             cardTitle.textContent = card.type === 'image' ? card.title : 'Descrição';
             
             cardFront.appendChild(cardIcon);
             cardFront.appendChild(cardTitle);
             
             const cardBack = document.createElement('div');
-            cardBack.className = 'card-back p-2'; // Adicionado p-2
+            // Adicionado p-1 para padding mínimo no verso
+            cardBack.className = 'card-back p-1 flex flex-col items-center justify-center'; // Adicionado p-2
             
             if (card.type === 'image') {
                 const img = document.createElement('img');
                 img.src = card.content;
                 img.alt = card.title;
-                img.className = 'card-image mb-1 sm:mb-2'; // Ajustado margin
+                 // Adicionado w-full para tentar preencher a largura, max-h-[70%] para limitar altura e dar espaço ao título
+                img.className = 'card-image mb-0.5 md:mb-1 w-full max-h-[70%]'; // Ajustado margin
                 cardBack.appendChild(img);
                 
                 const imgTitle = document.createElement('div');
-                imgTitle.className = 'font-bold text-xs sm:text-sm text-center';
+                // Reduzido tamanho da fonte, adicionado leading-tight
+                imgTitle.className = 'font-bold text-[10px] sm:text-xs text-center leading-tight mt-0.5';
                 imgTitle.textContent = card.title;
                 cardBack.appendChild(imgTitle);
             } else {
                 const descText = document.createElement('div');
-                descText.className = 'text-xs sm:text-sm text-gray-700 overflow-auto h-full'; // h-full para ocupar espaço
+                // Reduzido tamanho da fonte, adicionado leading-tight, w-full e h-full para tentar usar o espaço
+                descText.className = 'text-[10px] sm:text-xs text-gray-700 overflow-auto h-full w-full leading-tight text-center'; // h-full para ocupar espaço
                 descText.textContent = card.content;
                 cardBack.appendChild(descText);
             }
