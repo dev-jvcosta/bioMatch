@@ -204,7 +204,8 @@ const cardPairs = [
             const cardTitle = document.createElement('div');
             // Reduzido tamanho da fonte, adicionado leading-tight para espaçamento entre linhas mais justo
             cardTitle.className = 'font-bold text-[10px] sm:text-xs leading-tight';
-            cardTitle.textContent = card.type === 'image' ? card.title : 'Descrição';
+            // o texto do card.title está com caracter vazio, para não ser exibido atras da carta
+            cardTitle.textContent = card.type === 'image' ? '' : '';
             
             cardFront.appendChild(cardIcon);
             cardFront.appendChild(cardTitle);
