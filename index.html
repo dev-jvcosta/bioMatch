@@ -11,31 +11,33 @@
 </head>
 <body class="bg-green-50 min-h-screen">
   <div class="container mx-auto px-4 py-8">
-        <h1 class="text-3xl md:text-4xl font-bold text-center text-green-800 mb-2">BioMatch</h1>
-        <p class="max-w-lg mx-auto text-center text-green-600 text-sm sm:text-base mb-4 mt-4 font-semibold">Relacione as imagenns com as descrições e descubra os pares corretos. Aprenda e divirta-se com temas da biologia, brincando!</p>
+        <h1 id="main-title" class="text-3xl md:text-4xl font-bold text-center text-green-800 mb-2">BioMatch</h1>
+        <p id="main-description" class="max-w-lg mx-auto text-center text-green-600 text-sm sm:text-base mb-4 mt-4 font-semibold">Relacione as imagenns com as descrições e descubra os pares corretos. Aprenda e divirta-se com temas da biologia, brincando!</p>
         
         <!--ÁREA DESTINADA AO CONTAINER QUE SUSTENTA OS PLACARES E O TIMER-->
         <div class="flex flex-col sm:flex-row justify-between items-center sm:items-stretch text-center sm:text-left gap-4 sm:gap-2 mb-4">
 
     <div class="bg-white p-3 sm:p-4 rounded-lg shadow-md w-full sm:w-auto">
-        <h2 class="text-lg sm:text-xl font-semibold text-green-700">Jogador 1: <span id="player1-score">0</span></h2>
-        <div id="player1-indicator" class="h-2 w-full bg-green-200 mt-1">
-            <div id="player1-active" class="h-full bg-green-500 hidden"></div>
+        <h2 class="text-lg sm:text-xl font-semibold text-grey-700"><i class="text-red-700 fa-solid fa-user mr-2"></i>Jogador 1: <span id="player1-score">0</span></h2>
+        <div id="player1-indicator" class="h-2 w-full bg-gray-300 mt-1">
+            <div id="player1-active" class="h-full bg-red-500 hidden"></div>
         </div>
     </div>
 
     <div class="text-center w-full sm:w-auto order-first sm:order-none py-2 sm:py-0"> 
         <div class="text-xl sm:text-2xl font-bold text-green-800 mb-1" id="timer">00:00</div>
         <div class="flex gap-2 justify-center">
-            <button id="start-btn" class="bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-sm sm:text-base">Start Game</button>
-            <button id="reset-btn" class="bg-gray-600 hover:bg-gray-700 text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-sm sm:text-base">Reset</button>
+            <button id="start-btn" class="bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-sm sm:text-base">Iniciar Jogo</button>
+            <button id="reset-btn" class=" bg-gray-600 hover:bg-gray-700 text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-sm sm:text-base">Reiniciar
+              <i class="fa-solid fa-arrow-rotate-right ml-2"></i>
+            </button>
         </div>
     </div>
 
     <div class="bg-white p-3 sm:p-4 rounded-lg shadow-md w-full sm:w-auto">
-        <h2 class="text-lg sm:text-xl font-semibold text-green-700">Jogador 2: <span id="player2-score">0</span></h2>
-        <div id="player2-indicator" class="h-2 w-full bg-green-200 mt-1">
-            <div id="player2-active" class="h-full bg-green-500 hidden"></div>
+        <h2 class="text-lg sm:text-xl font-semibold text-grey-700"><i class="text-blue-700 fa-solid fa-user mr-2"></i>Jogador 2: <span id="player2-score">0</span></h2>
+        <div id="player2-indicator" class="h-2 w-full bg-gray-300 mt-1">
+            <div id="player2-active" class="h-full bg-blue-500 hidden"></div>
         </div>
     </div>
 </div>
@@ -73,7 +75,7 @@
         <!--MODAL PARA SELEÇÃO DE TEMPORIZADOR-->
         <div id="timer-select-modal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden p-4">
             <div class="bg-white p-6 rounded-lg max-w-xs w-full text-center shadow-xl">
-                <h2 class="text-2xl font-bold text-green-800 mb-6">Selecionar Tempo</h2>
+                <h2 class="text-2xl font-bold text-green-800 mb-6">Selecione o Temporizador</h2>
                 <div class="flex flex-col gap-3">
                     <button id="timer-1min" data-time="60" class="bg-green-500 hover:bg-green-600 text-white px-4 py-3 rounded-lg text-lg transition-transform transform hover:scale-105">1 Minuto</button>
                     <button id="timer-3min" data-time="180" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-3 rounded-lg text-lg transition-transform transform hover:scale-105">3 Minutos</button>

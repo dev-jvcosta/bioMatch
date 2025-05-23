@@ -154,6 +154,10 @@ const cardPairs = [
     const timer3MinButton = document.getElementById('timer-3min');
     const timer5MinButton = document.getElementById('timer-5min');
     const cancelTimerSelectButton = document.getElementById('cancel-timer-select-btn');
+
+    // Novos Elementos DOM para título e descrição principal
+    const mainTitleElement = document.getElementById('main-title');
+    const mainDescriptionElement = document.getElementById('main-description');
     
     // Initialize the game
     // Configura o tabuleiro do jogo (cria e embaralha as cartas)
@@ -378,6 +382,10 @@ const cardPairs = [
 
     // Nova inicialização do jogo com seleção de temporizador e inicia o jogo
     function actuallyStartGame() {
+        // Esconde o título e a descrição principal
+        if (mainTitleElement) mainTitleElement.classList.add('hidden');
+        if (mainDescriptionElement) mainDescriptionElement.classList.add('hidden');
+
         gameStarted = true;
         // startButton.disabled = true; // Já foi desabilitado
         startButton.textContent = 'Jogo em Progresso';
@@ -406,56 +414,75 @@ const cardPairs = [
 
     // Termina o jogo
     function endGame(timeRanOut = false) {
-        clearInterval(timerInterval);
-        gameStarted = false; // Jogo terminou
-        gameBoardElement.style.pointerEvents = 'none'; // Desabilita o tabuleiro
-        // Não precisa reabilitar startButton aqui, pois o playAgainButton no modal fará o reset
-        // ou o usuário pode clicar em "Reset" manualmente.
-        // startButton.disabled = false; // Será habilitado por resetGame
-        // startButton.textContent = 'Start Game';
+    clearInterval(timerInterval);
+    gameStarted = false;
+    gameBoardElement.style.pointerEvents = 'none';
 
-        let winnerText = '';
-        let messageDetail = '';
-        const finalTimeFormatted = timerElement.textContent; // Tempo que aparece no display
+    let titleText = '';
+    winnerTitle.className = 'font-bold mb-4'; 
+    winnerMessage.className = 'mb-4';       
 
-        if (timeRanOut) {
-            winnerTitle.textContent = 'Tempo Esgotado!';
-            if (player1Score > player2Score) {
-                winnerText = 'Jogador 1 venceu por pontos!';
-            } else if (player2Score > player1Score) {
-                winnerText = 'Jogador 2 venceu por pontos!';
-            } else { // Empate nos pontos
-                if (player1Score === 0 && player2Score === 0) { // Ninguém pontuou
-                    winnerText = "Empate! Nenhum jogador pontuou.";
-                } else { // Empate com pontos
-                    winnerText = "Empate por pontos!";
-                }
+    let statusTextPart = ''; 
+    let scoresAndTimeTextPart = ''; 
+
+    if (timeRanOut) {
+        titleText = 'Tempo Esgotado!';
+        winnerTitle.classList.add('text-4xl', 'text-orange-500');
+
+        if (player1Score > player2Score) {
+            statusTextPart = 'Jogador 1 venceu por pontos!';
+            winnerMessage.classList.add('text-xl', 'text-blue-600');
+        } else if (player2Score > player1Score) {
+            statusTextPart = 'Jogador 2 venceu por pontos!';
+            winnerMessage.classList.add('text-xl', 'text-red-600');
+        } else {
+            if (player1Score === 0 && player2Score === 0) {
+                statusTextPart = "Empate! Nenhum jogador pontuou.";
+            } else {
+                statusTextPart = "Empate por pontos!";
             }
-            messageDetail = `Pontuação: Jogador 1 - ${player1Score}, Jogador 2 - ${player2Score}.`;
-        } else { // Jogo terminado por completar os pares
-            winnerTitle.textContent = 'Jogo Concluído!';
-            if (player1Score > player2Score) {
-                winnerText = 'Jogador 1 venceu!';
-            } else if (player2Score > player1Score) {
-                winnerText = 'Jogador 2 venceu!';
-            } else { // Empate, mesmo completando todos os pares (ambos fizeram a mesma quantidade de pontos)
-                winnerText = "Empate!";
-            }
-            // Calcula o tempo que levou
-            let timeTakenSeconds = selectedGameDuration - timeRemaining;
-            if (timeTakenSeconds < 0) timeTakenSeconds = selectedGameDuration; // Caso o timeRemaining não tenha sido atualizado a tempo
-
-            const minutesTaken = Math.floor(timeTakenSeconds / 60).toString().padStart(2, '0');
-            const secondsTaken = (timeTakenSeconds % 60).toString().padStart(2, '0');
-            messageDetail = `Pontuação: Jogador 1 - ${player1Score}, Jogador 2 - ${player2Score}. Tempo: ${minutesTaken}:${secondsTaken}.`;
+            winnerMessage.classList.add('text-xl', 'text-gray-600');
         }
+        // Definindo a parte dos scores
+        scoresAndTimeTextPart = `Pontuação: Jogador 1 - ${player1Score}, Jogador 2 - ${player2Score}.`;
 
-        winnerMessage.textContent = `${winnerText} ${messageDetail}`;
-        winnerModal.classList.remove('hidden');
+    } else { // Jogo terminado por completar os pares
+        titleText = 'Jogo Concluído!';
+        winnerTitle.classList.add('text-4xl', 'text-green-600');
+
+        if (player1Score > player2Score) {
+            statusTextPart = 'Jogador 1 venceu!';
+            winnerMessage.classList.add('text-xl', 'text-blue-600');
+        } else if (player2Score > player1Score) {
+            statusTextPart = 'Jogador 2 venceu!';
+            winnerMessage.classList.add('text-xl', 'text-red-600');
+        } else {
+            statusTextPart = "Empate!";
+            winnerMessage.classList.add('text-xl', 'text-gray-600');
+        }
+        
+        let timeTakenSeconds = selectedGameDuration - timeRemaining;
+        if (timeTakenSeconds < 0 || selectedGameDuration === 0) timeTakenSeconds = 0; 
+
+        const minutesTaken = Math.floor(timeTakenSeconds / 60).toString().padStart(2, '0');
+        const secondsTaken = (timeTakenSeconds % 60).toString().padStart(2, '0');
+        // Definindo a parte dos scores e tempo
+        scoresAndTimeTextPart = `Pontuação: Jogador 1 - ${player1Score}, Jogador 2 - ${player2Score}. Tempo: ${minutesTaken}:${secondsTaken}.`;
+    }
+
+    winnerTitle.textContent = titleText;
+    // APLICA A QUEBRA DE LINHA PARA TODAS AS MENSAGENS AQUI:
+    winnerMessage.textContent = statusTextPart + '\n' + scoresAndTimeTextPart.trimStart(); 
+
+    winnerModal.classList.remove('hidden');
     }
 
     // Reinicia o Jogo
     function resetGame() {
+      // Mostra o título e a descrição principal
+    if (mainTitleElement) mainTitleElement.classList.remove('hidden');
+    if (mainDescriptionElement) mainDescriptionElement.classList.remove('hidden');
+
     clearInterval(timerInterval);
 
     winnerModal.classList.add('hidden');
@@ -478,7 +505,7 @@ const cardPairs = [
     updatePlayerIndicators();
 
     timerElement.textContent = '00:00';
-    startButton.textContent = 'Start Game';
+    startButton.textContent = 'Iniciar Jogo';
     startButton.disabled = false;
 
     setupGameBoard(); // Configura o tabuleiro com novas cartas
