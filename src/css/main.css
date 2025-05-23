@@ -1,4 +1,47 @@
+body{
+    position: relative;
+}
 
+body::before{
+    content: ''; /* Pseudo-elementos precisam de 'content' */
+    position: fixed; /* Fixa o fundo para cobrir toda a tela, mesmo com scroll */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    
+    /* Defina sua imagem de fundo aqui */
+    background-image: url('../../assets/images/logo.png'); 
+    background-size: cover; /* Faz a imagem cobrir toda a área */
+    background-position: center; /* Centraliza a imagem */
+    background-repeat: no-repeat; /* Evita que a imagem se repita */
+
+    /* Defina a opacidade desejada aqui (0.5 = 50%) */
+    opacity: 0.6; /* <<< AJUSTE ESTE VALOR (entre 0 e 1) */
+
+    /* Coloca o fundo atrás de todo o conteúdo */
+    z-index: -1; 
+}
+
+#main-title{
+    font-size: 3.5rem;
+    padding: 2rem;
+}
+
+#timer{
+    font-size:2.5rem;
+    padding: 1rem;
+    color: black;
+}
+
+#main-description{
+    font-size: 1.2rem;
+    color: black;
+    max-width: 65%;
+    padding: 2rem;
+    background-color: #98ebb7;
+    border-radius: 18px;
+}
 
 .card {
     perspective: 1000px;
@@ -39,6 +82,8 @@
     transform: rotateY(180deg);
     border: 2px solid #4ade80;
 }
+
+
 .matched {
     filter: grayscale(100%);
     opacity: 0.7;

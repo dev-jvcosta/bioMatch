@@ -185,7 +185,7 @@ const cardPairs = [
 
         gameBoard.forEach((card, index) => {
             const cardElement = document.createElement('div');
-            cardElement.className = 'card'; // Classes de altura responsiva podem ser adicionadas aqui ou no CSS
+            cardElement.className = 'card hover:scale-105 hover:z-10 transition-transform duration-200 ease-in-out'; // Classes de altura responsiva podem ser adicionadas aqui ou no CSS
             cardElement.dataset.index = index;
             
             const cardInner = document.createElement('div');
