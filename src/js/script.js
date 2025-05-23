@@ -356,7 +356,7 @@ const cardPairs = [
 
     // Mostra o modal de curiosidade
     function showFactModal(card) {
-        factTitle.textContent = card.type === 'image' ? card.title : 'Did You Know?';
+        factTitle.textContent = card.type === 'image' ? card.title : 'Você Sabia?';
         
         if (card.type === 'image') {
             factImage.src = card.content;
